@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data.db"
+}
+
+model PokeCard {
+  id          Int       @id @unique @default(autoincrement())
+  hp          Int
+  name        String
+  description String
+  type        String
+  created_at  DateTime  @default(now())
+  PokeDeck    PokeDeck? @relation(fields: [pokeDeckId], references: [id])
+  pokeDeckId  Int?
+}
+
+model PokeDeck {
+  id          Int        @id @unique @default(autoincrement())
+  name        String
+  description String
+  cards       PokeCard[]
+  created_at  DateTime   @default(now())
+}
